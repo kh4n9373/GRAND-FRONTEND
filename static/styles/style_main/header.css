@@ -4,9 +4,11 @@
   height: 3.5vh;
   margin-left: 0.5rem;
   margin-right: 0.5rem;
-  margin-top: 0.4rem;
+  margin-top: 0.2rem;
+  margin-bottom: 0.5rem;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr;
+
 }
 
 .h-col-1 {

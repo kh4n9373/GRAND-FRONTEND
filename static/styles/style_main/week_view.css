@@ -27,7 +27,7 @@
 .time_interval {
   border-top: 0px solid;
   grid-area: time_interval;
-  height: 670px;
+  height: 100%;
   display: grid;
   grid-template-columns: 1fr 14fr;
   overflow-y: scroll;

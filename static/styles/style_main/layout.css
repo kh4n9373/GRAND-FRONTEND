@@ -39,6 +39,7 @@
 .item-1.expanded {
   grid-row: 1 / 4; 
   grid-column: 1 / 3; 
+  height: fit-content;
 }
 
 .item-2 {
