@@ -86,7 +86,7 @@
   position: relative;
 }
 .view {
-  width: 50%;
+  width: 49.5%;
   height: 72.2px;
   border-radius: 10px;
   overflow: hidden;
@@ -101,13 +101,13 @@
 .change-view {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   background-color: transparent;
   width: 100%;
   height: 100%;
-  padding-right: 10px; /* Thêm padding để chữ và icon không dính vào mép */
-  padding-left: 10px;
+  padding-right: 15px; /* Thêm padding để chữ và icon không dính vào mép */
+  padding-left: 20px;
   color: white; /* Chữ trắng */
   border-radius: 10px; /* Cong góc */
   border: 0;
