@@ -13,6 +13,14 @@ window.addEventListener('click', function (event) {
   }
 });
 
+window.addEventListener('click', function (event) {
+  const itemOne = document.getElementById('item1');
+  // Check if the click is outside of item-1
+  if (itemOne && !itemOne.contains(event.target)) {
+    itemOne.classList.remove('expanded');
+  }
+});
+
 function loadView(view) {
   const calendarContainer = document.getElementById('calendar-container');
   calendarContainer.innerHTML = ''; // Xóa nội dung hiện tại

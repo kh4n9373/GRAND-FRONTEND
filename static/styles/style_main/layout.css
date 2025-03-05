@@ -95,7 +95,7 @@
 }
 
 #workspace-display {
-  margin-right: 8.5rem;
+  margin-right: 2.5rem;
 }
 
 @media (max-width: 768px) {
@@ -112,4 +112,5 @@
 #calendar-container{
   width:100%;
   height: auto;
+  border-radius: 20px;
 }
