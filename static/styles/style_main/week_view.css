@@ -69,7 +69,7 @@
 }
 
 .calendar-day {
-  font-size: 1.5rem;
+  font-size: 1.15rem;
   font-weight: 500;
   text-align: center;
 }
@@ -80,7 +80,7 @@
 }
 
 .day_of_week {
-  font-size: 1.75rem;
+  font-size: 1.25rem;
   font-weight: 600;
   text-align: center;
 }

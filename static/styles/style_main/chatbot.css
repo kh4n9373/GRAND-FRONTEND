@@ -6,7 +6,7 @@
   align-items: center;
   background-color: white;
   border-radius: 20px;
-  padding: 1rem;
+  padding: 0.5rem 0.6rem 0.7rem;
   justify-content: flex-start;
   gap: 0.5rem;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -15,7 +15,7 @@
 
 .chatbot h1 {
   font-weight: 600;
-  font-size: 22px;
+  font-size: 24px;
   color: var(--button-color);
   margin-top: -5px;
   transition: color 0.3s ease;
@@ -50,15 +50,15 @@
 }
 
 .timestamp{
-  font-size: 14px;
+  font-size: 10px;
   color: hsla(0, 0%, 53%, 0.8);
 }
 
 .bot-message,
 .user-message {
-font-size: 15px;
+font-size: 14px;
 max-width: 70%;
-margin-bottom: 0.5rem;
+margin-bottom: 0.3rem;
 word-wrap: break-word;
 }
 
@@ -69,12 +69,12 @@ align-self: flex-start;
 .user-message {
 align-self: flex-end;
 }
-
+ 
 .bot-message p,
 .user-message p {
-font-size: 15px;
+font-size: 12px;
 font-weight: 400;
-padding: 10px 13px;
+padding: 8px 10px;
 display: inline-block;
 max-width: 100%;
 }

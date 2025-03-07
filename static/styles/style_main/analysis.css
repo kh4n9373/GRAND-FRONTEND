@@ -1,7 +1,7 @@
 .upper {
     display: flex;
     justify-content: space-between;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 600;
   }
   
@@ -92,7 +92,7 @@
   }
   
   .chart h2 {
-    font-size: 20px;
+    font-size: 17px;
     font-weight: 500;
     margin-top: -5px;
   }
