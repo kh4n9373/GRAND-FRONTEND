@@ -7,8 +7,15 @@ function addTaskToCalendar(taskData) {
 
 function addTaskToCalendarFromDB(taskData){
   const task = createTaskElement(taskData);
-  if(currentWeek <= new Date(taskData.startTime) && new Date(taskData.endTime) <= endWeek)positionTask(task, taskData.startTime, taskData.endTime);
+  if(currentWeek <= new Date(taskData.startTime) && new Date(taskData.endTime) <= endWeek)positionTask(task, new Date(taskData.startTime), new Date(taskData.endTime));
   document.querySelector('.time-slots').appendChild(task);
+}
+
+function taskOccursInCurrentWeek(taskData) {
+  const taskStart = new Date(taskData.startTime);
+  // currentWeek is assumed to be set to the Sunday of the week (at midnight)
+  // and endWeek is the Saturday of this week (at midnight)
+  return taskStart >= currentWeek && taskStart < new Date(currentWeek.getTime() + 7 * 24 * 60 * 60 * 1000);
 }
 
 function createTaskElement(taskData) {
@@ -144,31 +151,95 @@ function updateTaskColor(taskElement, status) {
 // Chỉnh màu dựa trên status
 const colors = ['#0000FF', '#FF0000', '#008000'];
 
+// function positionTask(taskElement, startTime, endTime) {
+//   const timeSlots = document.querySelectorAll('.time-slot');
+
+//   const startSlotElement = timeSlots[getIndexFromTime(startTime) + 7];
+//   const endSlotElement = timeSlots[getIndexFromTime(endTime) + 7];
+
+//   const startRect = startSlotElement.getBoundingClientRect();
+//   const endRect = endSlotElement.getBoundingClientRect();
+//   const timeSlotRect = timeSlots[0].getBoundingClientRect();
+
+//   taskElement.style.position = 'absolute';
+//   taskElement.style.left = `${
+//     Math.min(startRect.left, endRect.left) - timeSlotRect.left
+//   }px`;
+//   taskElement.style.top = `${
+//     Math.min(startRect.top, endRect.top) - timeSlotRect.top + 10
+//   }px`;
+//   taskElement.style.width = `${
+//     Math.max(startRect.right, endRect.right) -
+//     Math.min(startRect.left, endRect.left)
+//   }px`;
+//   taskElement.style.height = `${
+//     Math.max(startRect.bottom, endRect.bottom) -
+//     Math.min(startRect.top, endRect.top) -
+//     20
+//   }px`;
+// }
+
+// function positionTask(taskElement, startTime, endTime) {
+//   // Get container dimensions
+//   const container = document.querySelector('.time-slots');
+//   const containerRect = container.getBoundingClientRect();
+//   // Our grid uses 7 columns
+//   const cellWidth = containerRect.width / 7;
+//   const cellHeight = 20; // as defined in week_view.css grid-template-rows
+  
+//   // blankOffset accounts for the extra blank cells (here assumed 30px)
+//   const blankOffset = 30;
+  
+//   // Calculate the day offset from the currentWeek (currentWeek is a Date set to the Sunday)
+//   // We assume each task is within the same week (or spans full days)
+//   const msPerDay = 1000 * 60 * 60 * 24;
+//   const startDayIndex = Math.floor((startTime - currentWeek) / msPerDay);
+//   const endDayIndex = Math.floor((endTime - currentWeek) / msPerDay);
+
+
+//   // Calculate the row index. There are 4 slots per hour.
+//   const startRow = startTime.getHours() * 4 + Math.floor(startTime.getMinutes() / 15);
+//   const endRow = endTime.getHours() * 4 + Math.floor(endTime.getMinutes() / 15);
+  
+//   // For a task that starts and ends on the same day:
+//   // left = (day index * cellWidth)
+//   // top = (row index * cellHeight) + blankOffset
+//   // width = cellWidth (if spanning one day) or ((number of days spanned) * cellWidth)
+//   // height = (difference in row indices) * cellHeight
+//   taskElement.style.position = 'absolute';
+//   taskElement.style.left = `${startDayIndex * cellWidth}px`;
+//   taskElement.style.top = `${startRow * cellHeight + blankOffset}px`;
+//   taskElement.style.width = `${(endDayIndex - startDayIndex + 1) * cellWidth}px`;
+//   taskElement.style.height = `${(endRow - startRow) * cellHeight}px`;
+// }
+
 function positionTask(taskElement, startTime, endTime) {
-  const timeSlots = document.querySelectorAll('.time-slot');
+  // Get container dimensions and compute cell dimensions
+  const container = document.querySelector('.time-slots');
+  console.log(container);
+  const containerRect = container.getBoundingClientRect();
+  console.log(containerRect);
+  const cellWidth = containerRect.width / 7;   // 7 days in the week
+  const cellHeight = 20;                         // our grid rows are 20px tall
+  const blankOffset = 30;                        // height of the initial blank row
 
-  const startSlotElement = timeSlots[getIndexFromTime(startTime) + 7];
-  const endSlotElement = timeSlots[getIndexFromTime(endTime) + 7];
-
-  const startRect = startSlotElement.getBoundingClientRect();
-  const endRect = endSlotElement.getBoundingClientRect();
-  const timeSlotRect = timeSlots[0].getBoundingClientRect();
-
+  // Calculate which day column the task is on 
+  // (assume tasks are within the same week)
+  const dayIndex = Math.floor((startTime - currentWeek) / (1000 * 60 * 60 * 24)); 
+  
+  // Calculate the row index (0 to 95) based on time
+  const startRow = startTime.getHours() * 4 + Math.floor(startTime.getMinutes() / 15);
+  const endRow = endTime.getHours() * 4 + Math.floor(endTime.getMinutes() / 15);
+  
+  // For tasks on the same day, set:
+  const left = dayIndex * cellWidth;
+  const top = blankOffset + startRow * cellHeight;
+  const width = cellWidth; // if a task spans one day
+  const height = (endRow - startRow) * cellHeight;
+  
   taskElement.style.position = 'absolute';
-  taskElement.style.left = `${
-    Math.min(startRect.left, endRect.left) - timeSlotRect.left
-  }px`;
-  taskElement.style.top = `${
-    Math.min(startRect.top, endRect.top) - timeSlotRect.top + 10
-  }px`;
-  taskElement.style.width = `${
-    Math.max(startRect.right, endRect.right) -
-    Math.min(startRect.left, endRect.left)
-  }px`;
-  taskElement.style.height = `${
-    Math.max(startRect.bottom, endRect.bottom) -
-    Math.min(startRect.top, endRect.top) -
-    20
-  }px`;
+  taskElement.style.left = `${left}px`;
+  taskElement.style.top = `${top}px`;
+  taskElement.style.width = `${width}px`;
+  taskElement.style.height = `${height}px`;
 }
-

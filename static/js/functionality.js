@@ -39,10 +39,10 @@ function changeWeekView(){
         // Sau khi load hoàn tất, chạy renderCalendar
         initializeCalendar();
         document.querySelector('.view-text').textContent = 'Week';
-        addTaskFromDB();
     });
+    
 }
-0
+
 function changeMonthView(){
     console.log("changeMonthView");
     loadView('month_view').then(() => {

@@ -37,6 +37,7 @@
     grid-template-columns: repeat(7, 1fr);  
     grid-auto-rows: auto;
     overflow-y: auto;
+    overflow-x: hidden;
     scrollbar-width: none;
     flex: 1;
 }
@@ -55,6 +56,8 @@
     padding-top: 20px;
     transition: background-color 0.3s;
     gap: 3px;
+    min-width: 0;
+    overflow-x: hidden;
 }
 
 .day-in-month {
@@ -64,10 +67,10 @@
     width: fit-content; 
 }
 
-/* Style for hover effect on day slots */
+/* Style for hover effect on day slots
 .day-slot:hover {
     background-color: #ddd;
-}
+} */
 
 /* Differentiate between previous, current, and next month days */
 .prev-month, .next-month {
@@ -78,3 +81,29 @@
 .current-month {
     color: #000;
 }
+
+.day-tasks{
+    margin-top: 0.8rem;
+    font-size: 0.8rem;
+    width: 99%;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.task-time{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0rem 0.3rem;
+    border-radius: 5px;
+}
+
+.task-start{
+    font-weight: 550;
+}
+
+.task-time:hover {
+    background-color: #ddd;
+} 
