@@ -36,10 +36,10 @@
                 <a href="#">Forget Your Password?</a>
                 <button type="submit">Log In</button>
                 <a>Or</a>
-                <div id="g_id_onload"
-                    data-client_id="599747444234-m3rl7f6gmh7k2dikk2uhaka06g05113k.apps.googleusercontent.com"
-                    data-callback="handleCredentialResponse">
-                </div>
+                <a href="http://127.0.0.1:5050/authorization/google-login" class="google-btn">
+                    <div class="google-icon"></div>
+                    <span class="btn-text">Sign in with Google</span>
+                </a>
                 <div class="g_id_signin" data-type="standard"></div>
             </form>
         </div>
@@ -115,7 +115,7 @@
         const container = document.getElementById('container'); 
         const registerBtn = document.getElementById('register');
         const loginBtn = document.getElementById('login');
-        const ggauthenBtn = document.getElementById('googleSignIn');
+        // const ggauthenBtn = document.getElementById('googleSignIn');
 
         registerBtn.addEventListener('click', () => {
             container.classList.add("active");
@@ -124,35 +124,48 @@
         loginBtn.addEventListener('click', () => {
             container.classList.remove("active");
         });
-        ggauthenBtn.addEventListener('click',() => {
-            alert('Function is finishing...');
-        })
+        // ggauthenBtn.addEventListener('click',() => {
+        //     alert('Function is finishing...');
+        // })
     </script>
     <script>
-        function handleCredentialResponse(response) {
-            fetch('/callback', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({id_token: response.credential})
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-                if (data.status === 'success') {
-                    // Redirect to calendar page
-                    const url = `/calendar?username=${encodeURIComponent(data.name)}&record=${encodeURIComponent(data.user_id)}`;
-                    window.location.href = url;
-                } else {
-                    alert('Authentication failed: ' + data.message);
-                }
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                alert('Authentication failed.');
+        // function handleCredentialResponse(response) {
+        //     console.log("Token từ Google:", response.credential);
+            
+        //     fetch("http://localhost:5050/authorization/callback", {
+        //         method: "POST",
+        //         headers: { "Content-Type": "application/json" },
+        //         body: JSON.stringify({ token: response.credential })
+        //     })
+        //     .then(res => res.json())
+        //     .then(data => {
+        //         if (data.success) {
+        //             alert("Đăng nhập thành công! Chào " + data.user.name);
+        //         } else {
+        //             alert("Lỗi xác thực!");
+        //         }
+        //     })
+        //     .catch(err => console.error("Lỗi:", err));
+        // }
+
+        document.getElementById("loginForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const username = document.getElementById("loginUsername").value;
+            const password = document.getElementById("loginPassword").value;
+
+            const response = await fetch("/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, password })
             });
-        }
+
+            const result = await response.json();
+            if (response.ok && result.userID) {
+                window.location.href = `/calendar?username=${encodeURIComponent(username)}&record=${encodeURIComponent(result.userID)}`;
+            }
+        });
     </script>
+
 </body>
 </html>
