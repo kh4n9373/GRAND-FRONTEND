@@ -88,3 +88,19 @@ function addTaskFromDB() {
     }
   });
 }
+
+function nextPeriod() {
+  if (currentView === 'week-view'){
+    nextWeek();
+  }else{
+    nextMonth();
+  }
+}
+
+function previousPeriod() {
+  if (currentView === 'week-view'){
+    previousWeek();
+  }else{
+    previousMonth();
+  }
+}

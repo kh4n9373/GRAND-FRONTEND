@@ -4,8 +4,6 @@ endWeek.setHours(0,0,0,0);
 endWeek.setDate(currentWeek.getDate() + 6);
 
 function initializeCalendar() {
-  console.log(currentWeek);
-  console.log(endWeek);
   const timeSlots = document.querySelector('.time-slots');
   const timeInterval = document.querySelector('.time_interval .time');
 
@@ -89,8 +87,6 @@ function createTimeIntervalsAndSlots() {
   const timeblank2 = document.createElement('div');
   timeblank2.classList.add('blank_time');
   timeInterval.appendChild(timeblank2);
-
-  console.log("create time slots");
 }
 
 function previousWeek() {
@@ -208,7 +204,6 @@ function onMouseUp() {
       console.log(startTime);
       console.log(endTime);
       document.getElementById('startTime').value = startTime;
-      console.log(startTime);
       document.getElementById('endTime').value = endTime;
       openCreateTaskModal();
     }

@@ -1,3 +1,29 @@
+// Global variables for tracking the current month view
+let currentYear = new Date().getFullYear();
+let currentMonth = new Date().getMonth();
+
+function renderCurrentMonth() {
+    renderCalendar(currentYear, currentMonth);
+}
+
+function nextMonth() {
+    currentMonth++;
+    if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+    }
+    renderCurrentMonth();
+}
+
+function previousMonth() {
+    currentMonth--;
+    if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+    }
+    renderCurrentMonth();
+}
+
 function daysInMonth(year, month) {
     return new Date(year, month + 1, 0).getDate();
 }

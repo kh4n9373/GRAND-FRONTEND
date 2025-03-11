@@ -216,9 +216,7 @@ const colors = ['#0000FF', '#FF0000', '#008000'];
 function positionTask(taskElement, startTime, endTime) {
   // Get container dimensions and compute cell dimensions
   const container = document.querySelector('.time-slots');
-  console.log(container);
   const containerRect = container.getBoundingClientRect();
-  console.log(containerRect);
   const cellWidth = containerRect.width / 7;   // 7 days in the week
   const cellHeight = 20;                         // our grid rows are 20px tall
   const blankOffset = 30;                        // height of the initial blank row

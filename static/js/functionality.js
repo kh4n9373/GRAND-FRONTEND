@@ -34,17 +34,16 @@ function loadView(view) {
 }
 
 function changeWeekView(){
-    console.log("changeWeekView");
+    currentView = 'week-view';
     loadView('week_view').then(() => {
         // Sau khi load hoàn tất, chạy renderCalendar
         initializeCalendar();
         document.querySelector('.view-text').textContent = 'Week';
-    });
-    
+    }); 
 }
 
 function changeMonthView(){
-    console.log("changeMonthView");
+    currentView = 'month-view';
     loadView('month_view').then(() => {
         // Sau khi load hoàn tất, chạy renderCalendar
         renderCalendar(currentWeek.getFullYear(), currentWeek.getMonth());
