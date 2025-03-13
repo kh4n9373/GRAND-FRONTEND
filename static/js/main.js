@@ -5,6 +5,15 @@ let tasksData = [
     taskName: 'Team Meeting with Project Manager',
     taskDescription: 'Discuss project status',
     taskColor: '#FF0000',
+    startTime: '2025-03-13T07:00:00',
+    endTime: '2025-03-13T08:00:00',
+    status: 'In progress'
+  },
+  {
+    userID: 1,
+    taskName: 'Team Meeting with Project Manager',
+    taskDescription: 'Discuss project status',
+    taskColor: '#FF0000',
     startTime: '2025-03-13T09:00:00',
     endTime: '2025-03-13T10:00:00',
     status: 'In progress'
@@ -25,6 +34,24 @@ let tasksData = [
     taskColor: '#0000FF',
     startTime: '2025-03-13T15:00:00',
     endTime: '2025-03-13T16:00:00',
+    status: 'In progress'
+  },
+  {
+    userID: 1,
+    taskName: 'Lunch Break',
+    taskDescription: 'Lunch with client',
+    taskColor: '#00FF00',
+    startTime: '2025-03-13T17:00:00',
+    endTime: '2025-03-13T18:00:00',
+    status: 'In progress'
+  },
+  {
+    userID: 1,
+    taskName: 'Code Review',
+    taskDescription: 'Review PRs',
+    taskColor: '#0000FF',
+    startTime: '2025-03-13T19:00:00',
+    endTime: '2025-03-13T20:00:00',
     status: 'In progress'
   },
   {

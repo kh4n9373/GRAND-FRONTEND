@@ -29,7 +29,7 @@ function initializeCalendar() {
     // Now that time-slots are rendered, add the dummy tasks.
     addTaskFromDB();
     console.log("task load done");
-  }, 100);
+  }, 500);
 
 }
 

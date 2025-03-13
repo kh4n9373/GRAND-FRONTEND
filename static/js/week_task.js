@@ -130,6 +130,7 @@ function createTaskElement(taskData) {
 
   // Thêm sự kiện cho nút đóng
   document.getElementById('closeButton').addEventListener('click', function() {
+      
       const showtask = document.getElementById('taskInfo');
       showtask.style.opacity = 0;
       showtask.style.visibility = 'hidden';
