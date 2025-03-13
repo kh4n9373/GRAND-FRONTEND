@@ -23,7 +23,11 @@ function openCreateTaskModal() {
   document.getElementById('createTaskForm').onsubmit = function (e) {
     e.preventDefault();
     const taskData = getTaskDataFromForm();
-    addTaskToCalendar(taskData);
+    if (currentView === 'month-view') {
+      addTaskToMonthCalendar(taskData);
+    } else {
+      addTaskToCalendar(taskData); // week view currently
+    }
     closeModal();
     this.reset();
   };
@@ -51,4 +55,5 @@ function getTaskDataFromForm() {
     endTime: document.getElementById('endTime').value,
   };
 }
+
 

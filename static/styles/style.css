@@ -191,7 +191,7 @@
   }
   
   .partone {
-    background-image: url("../Background-01.svg");
+    background-image: url("../image/landing/Background-01.svg");
     background-size: cover;
   }
   
@@ -370,7 +370,7 @@
   .break {
     height: 140px;
     display: flex;
-    background-image: url('../RangCua.svg');
+    background-image: url('../image/landing/RangCua.svg');
     background-size: cover;
     margin-top: -20px;
   }
@@ -428,7 +428,7 @@
   
   .footer {
     height: 250px;
-    background-image: url('../Background-01.svg');
+    background-image: url('../image/landing/Background-01.svg');
     background-size: cover;
   }
   
