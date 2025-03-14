@@ -1,9 +1,16 @@
 let currentWeek = getStartOfCenteredWeek(new Date());
 let endWeek = new Date();
+endWeek.setHours(0,0,0,0);
+endWeek.setDate(currentWeek.getDate() + 6);
 
 function initializeCalendar() {
   const timeSlots = document.querySelector('.time-slots');
   const timeInterval = document.querySelector('.time_interval .time');
+
+  if (!timeSlots || !timeInterval) {
+    console.error("Time-slots or time_interval container not found");
+    return;
+  }
 
   // Xóa các phần tử thời gian hiện có
   timeSlots.innerHTML = ''; // Xóa tất cả các phần tử trong .time-slots
@@ -16,6 +23,14 @@ function initializeCalendar() {
   timeSlots.addEventListener('mousemove', onMouseMove);
   // timeSlots.addEventListener('click', onMouseClick);
   document.addEventListener('mouseup', onMouseUp);
+
+  // Once the grid is rendered, wait a tick then add tasks.
+  setTimeout(() => {
+    // Now that time-slots are rendered, add the dummy tasks.
+    addTaskFromDB();
+    console.log("task load done");
+  }, 500);
+
 }
 
 function createTimeIntervalsAndSlots() {
@@ -144,6 +159,7 @@ function getStartOfCenteredWeek(date) {
   const day = start.getDay(); // Ngày trong tuần (0 - Chủ Nhật, 1 - Thứ Hai, ... 6 - Thứ Bảy)
   const offset = day === 0 ? 0 : -day; // Nếu là Chủ Nhật thì không cần dịch, nếu không thì dịch về Chủ Nhật
   start.setDate(start.getDate() + offset); // Thiết lập ngày về Chủ Nhật gần nhất
+  start.setHours(0,0,0,0); // Đặt giờ về 0:00:00
   return start;
 }
 
@@ -188,7 +204,6 @@ function onMouseUp() {
       console.log(startTime);
       console.log(endTime);
       document.getElementById('startTime').value = startTime;
-      console.log(startTime);
       document.getElementById('endTime').value = endTime;
       openCreateTaskModal();
     }

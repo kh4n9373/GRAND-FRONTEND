@@ -51,11 +51,14 @@ function formatDateTimeForInput(date, hours, minutes) {
 
 function getIndexFromTime(time) {
   const dayElements = document.querySelectorAll('.calendar-day');
-  const DayIndex = (new Date(formatDate(time)) - new Date(dayElements[0].dataset.date))/(1000 * 60 * 60 * 24);
+  const DayIndex = Math.floor(
+    (new Date(formatDate(time)) - new Date(dayElements[0].dataset.date)) /
+      (1000 * 60 * 60 * 24)
+  );
   const Hour = time.getHours();
   const Minute = time.getMinutes();
-
+  
   const SlotIndex = (Hour * 4 + Minute / 15) * 7 + DayIndex;
   console.log(`${Hour}-${Minute}-${formatDate(time)}-${dayElements[0].dataset.date}-${DayIndex}`);
-  return SlotIndex;
+  return SlotIndex - 7; // Adjust this if needed for your blank cells.
 }

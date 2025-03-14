@@ -7,28 +7,31 @@
   padding: 1rem;
   gap: 1rem;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  overflow: hidden;
 }
 
 #calendar-container {
   height: 900px;
+  overflow: hidden;
 }
 
 .calendar-zone-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 22px;
+  font-size: 16px;
   font-weight: 600;
   color: white;
   gap: 1rem;
 }
+
 
 #btn-today {
   background-color: var(--button-color);
   border: none;
   outline: none;
   cursor: pointer;
-  padding: 1.2rem 3rem;
+  padding: 0.8rem 1rem;
   border-radius: 15px;
   transition: all 0.3s ease;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -48,7 +51,7 @@
   justify-content: space-between;
   align-items: center;
   border-radius: 15px;
-  padding: 1.2rem 2.5rem;
+  padding: 0.8rem 1rem 0.8rem;
   background-color: var(--button-color);
   transition: all 0.3s ease;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -59,6 +62,7 @@
   border: none;
   outline: none;
   cursor: pointer;
+  width: 1.49rem;
 }
 
 .day button:first-child {
@@ -81,27 +85,34 @@
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
-  width: 15%;
   position: relative;
 }
 .view {
-  width: 50%;
-  height: 72.2px;
+  width: 49.5%;
+  height: auto;
+  padding: 0 1rem;
   border-radius: 10px;
   overflow: hidden;
   background-color: var(--button-color);
 }
 
+.dropdown-container {
+  position: relative;
+  width: 100%;
+}
+
 .change-view {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   background-color: transparent;
-  width: 100%;
+  width: auto;
+  min-width: 131px;
   height: 100%;
-  padding-right: 10px; /* Thêm padding để chữ và icon không dính vào mép */
-  padding-left: 10px;
+  padding: 0.61rem 2.5rem 0.61rem 0;
+  /* padding-right: 15px; Thêm padding để chữ và icon không dính vào mép
+  padding-left: 2px; */
   color: white; /* Chữ trắng */
   border-radius: 10px; /* Cong góc */
   border: 0;
@@ -117,7 +128,7 @@
   position: absolute; /* Định vị menu */
   top: 100%; /* Đặt menu ngay bên dưới button */
   left: 0;
-  width: 100px;
+  width: 50%;
   background-color: white; /* Màu nền menu */
   border: 1px solid #ccc; /* Đường viền menu */
   border-radius: 10px; /* Cong góc menu */
@@ -131,10 +142,12 @@
   background-color: transparent;
   border: none;
   cursor: pointer;
+  
 }
 
 .menu-option:hover {
   background-color: #f0f0f0; /* Thay đổi màu nền khi hover */
+  border-radius: 10px; /* Cong góc */
 }
 
 .search {
@@ -148,8 +161,8 @@
   border: none;
   outline: none;
   cursor: pointer;
-  padding: 0.85rem 0.85rem;
-  border-radius: 15px;
+  padding: 0.3rem 0.3rem;
+  border-radius: 10px;
   transition: all 0.3s ease;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }

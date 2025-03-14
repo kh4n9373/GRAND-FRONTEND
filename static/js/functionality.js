@@ -13,6 +13,14 @@ window.addEventListener('click', function (event) {
   }
 });
 
+window.addEventListener('click', function (event) {
+  const itemOne = document.getElementById('item1');
+  // Check if the click is outside of item-1
+  if (itemOne && !itemOne.contains(event.target)) {
+    itemOne.classList.remove('expanded');
+  }
+});
+
 function loadView(view) {
   const calendarContainer = document.getElementById('calendar-container');
   calendarContainer.innerHTML = ''; // Xóa nội dung hiện tại
@@ -26,16 +34,16 @@ function loadView(view) {
 }
 
 function changeWeekView(){
-    console.log("changeWeekView");
+    currentView = 'week-view';
     loadView('week_view').then(() => {
         // Sau khi load hoàn tất, chạy renderCalendar
         initializeCalendar();
         document.querySelector('.view-text').textContent = 'Week';
-    });
+    }); 
 }
 
 function changeMonthView(){
-    console.log("changeMonthView");
+    currentView = 'month-view';
     loadView('month_view').then(() => {
         // Sau khi load hoàn tất, chạy renderCalendar
         renderCalendar(currentWeek.getFullYear(), currentWeek.getMonth());

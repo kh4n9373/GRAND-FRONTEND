@@ -242,7 +242,7 @@ body{
 }
 
 .toggle{
-    background-image: url('../Background-01.svg'); /* Replace with your image path */
+    background-image: url('../image/landing/Background-01.svg'); /* Replace with your image path */
     background-size: cover;
     background-position: center;
     height: 100%;
