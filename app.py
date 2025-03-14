@@ -31,7 +31,7 @@ def render_calendar():
     
         print(access_token)
         response = requests.request("GET", 
-            url="http://localhost:5050/authorization/verify-token/", 
+            url="http://localhost:80/authorization/verify-token/", 
             headers={
                 'accept': 'application/json',
                 'Authorization': f'Bearer {access_token}',
@@ -54,7 +54,7 @@ def render_calendar():
                 return render_template('login.html')
             
             response = requests.request("GET", 
-                url="http://localhost:5050/authorization/verify-token/", 
+                url="http://localhost:80/authorization/verify-token/", 
                 headers={
                     'accept': 'application/json',
                     'Content-Type': 'application/json'
