@@ -10,10 +10,11 @@ security_on = False
 
 @app.route('/')
 def index():
-    try:
-        return redirect(url_for('render_calendar'))
-    except:
-        return render_template('index.html')
+    return render_template('index.html')
+
+@app.route('/info')
+def info():
+    return render_template('info_page.html')
 
 @app.route('/create-account')
 def create_account_page():

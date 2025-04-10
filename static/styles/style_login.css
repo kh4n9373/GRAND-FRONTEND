@@ -87,7 +87,7 @@
 
 body{
     background-color: #87bfff;
-    background: linear-gradient(to right, #87bfff, #3f8efc);
+    background: linear-gradient(to right, #87bfff, #add7f6);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -102,15 +102,15 @@ body{
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
     position: relative;
     overflow: hidden;
-    width: 768px;
+    width: 1152px;
     max-width: 100%;
-    min-height: 480px;
+    min-height: 720px;
 }
 
 .container p{
     color: #FFFCEC;
     font-family: 'Poppins', sans-serif;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 20px;
     letter-spacing: 0.3px;
     margin: 20px 0;
@@ -125,7 +125,7 @@ body{
 .container a{
     font-family: 'Poppins', sans-serif;
     color: #333;
-    font-size: 13px;
+    font-size: 14px;
     text-decoration: none;
     margin: 15px 0 10px;
 }
@@ -134,8 +134,8 @@ body{
     font-family: 'Poppins', sans-serif;
     background-color: #3148e6;
     color: #FFFCEC;
-    font-size: 12px;
-    padding: 10px 45px;
+    font-size: 14px;
+    padding: 13px 45px;
     border: 2px solid transparent;
     border-radius: 8px;
     font-weight: 600;
@@ -144,6 +144,10 @@ body{
     margin-top: 10px;
     cursor: pointer;
     transition: all 0.4s ease;
+}
+
+.container button a{
+    color: #FFFCEC;
 }
 
 .container button:hover {
@@ -171,11 +175,12 @@ body{
     border: none;
     margin: 8px 0;
     padding: 10px 15px;
-    font-size: 13px;
+    font-size: 16px;
     border-radius: 8px;
     width: 100%;
     outline: none;
 }
+
 
 .form-container{
     position: absolute;
@@ -242,7 +247,7 @@ body{
 }
 
 .toggle{
-    background-image: url('../image/landing/Background-01.svg'); /* Replace with your image path */
+    background-image: url('../image/landing/Background-01.svg'); 
     background-size: cover;
     background-position: center;
     height: 100%;
@@ -273,6 +278,12 @@ body{
     top: 0;
     transform: translateX(0);
     transition: all 0.6s ease-in-out;
+}
+
+.toggle-panel p {
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px;
+    font-weight: 300;
 }
 
 .toggle-left{
@@ -320,9 +331,4 @@ body{
     /* background-color: #5000d1; Slightly darker on hover */
 }
 
-.google-icon {
-    width: 20px;
-    height: 20px;
-    margin-left: 10px; /* Space between text and icon */
-}
 
