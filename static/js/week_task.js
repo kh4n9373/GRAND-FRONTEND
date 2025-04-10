@@ -2,7 +2,11 @@ function addTaskToCalendar(taskData) {
   const task = createTaskElement(taskData);
   positionTask(task, new Date(taskData.startTime), new Date(taskData.endTime));
   document.querySelector('.time-slots').appendChild(task);
+  taskData.status = "pending"
+  taskData.priority = 0
+  // console.log(taskData)
   addTask(taskData);
+  console.log("hello haha")
 }
 
 function addTaskToCalendarFromDB(taskData){

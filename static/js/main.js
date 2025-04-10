@@ -1,91 +1,12 @@
-let currentView = 'week-view';
-let tasksData = [
-  {
-    userID: 1,
-    taskName: 'Team Meeting with Project Manager',
-    taskDescription: 'Discuss project status',
-    taskColor: '#FF0000',
-    startTime: '2025-03-13T07:00:00',
-    endTime: '2025-03-13T08:00:00',
-    status: 'In progress'
-  },
-  {
-    userID: 1,
-    taskName: 'Team Meeting with Project Manager',
-    taskDescription: 'Discuss project status',
-    taskColor: '#FF0000',
-    startTime: '2025-03-13T09:00:00',
-    endTime: '2025-03-13T10:00:00',
-    status: 'In progress'
-  },
-  {
-    userID: 1,
-    taskName: 'Lunch Break',
-    taskDescription: 'Lunch with client',
-    taskColor: '#00FF00',
-    startTime: '2025-03-13T12:00:00',
-    endTime: '2025-03-13T13:00:00',
-    status: 'In progress'
-  },
-  {
-    userID: 1,
-    taskName: 'Code Review',
-    taskDescription: 'Review PRs',
-    taskColor: '#0000FF',
-    startTime: '2025-03-13T15:00:00',
-    endTime: '2025-03-13T16:00:00',
-    status: 'In progress'
-  },
-  {
-    userID: 1,
-    taskName: 'Lunch Break',
-    taskDescription: 'Lunch with client',
-    taskColor: '#00FF00',
-    startTime: '2025-03-13T17:00:00',
-    endTime: '2025-03-13T18:00:00',
-    status: 'In progress'
-  },
-  {
-    userID: 1,
-    taskName: 'Code Review',
-    taskDescription: 'Review PRs',
-    taskColor: '#0000FF',
-    startTime: '2025-03-13T19:00:00',
-    endTime: '2025-03-13T20:00:00',
-    status: 'In progress'
-  },
-  {
-    userID: 1,
-    taskName: 'Code Review',
-    taskDescription: 'Review PRs',
-    taskColor: '#0000FF',
-    startTime: '2025-03-18T15:00:00',
-    endTime: '2025-03-18T16:00:00',
-    status: 'In progress'
-  },
-  {
-    userID: 1,
-    taskName: 'Lunch Break',
-    taskDescription: 'Lunch with client',
-    taskColor: '#00FF00',
-    startTime: '2025-03-18T12:00:00',
-    endTime: '2025-03-18T13:00:00',
-    status: 'In progress'
-  },
-  {
-    userID: 1,
-    taskName: 'Team Meeting with Project Manager',
-    taskDescription: 'Discuss project status',
-    taskColor: '#FF0000',
-    startTime: '2025-03-18T09:00:00',
-    endTime: '2025-03-18T10:00:00',
-    status: 'In progress'
-  },
-];
 
-let tasks = tasksData;
+let currentView = 'week-view';
 
 document.addEventListener('DOMContentLoaded', function () {
+  getUserTasks().then((tasks) => {
+    console.log("tasks from api ");
+    console.log(tasks);
+    addTaskFromDB(tasks);
+  });
   changeWeekView();
   initializeChat();
   initializeModal();
@@ -97,8 +18,16 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
 });
-
-function addTaskFromDB() {
+function convertTimestampToDateTime(timestamp) {
+  const date = new Date(timestamp * 1000);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const hour = String(date.getHours()).padStart(2, '0');
+  const minute = String(date.getMinutes()).padStart(2, '0');
+  return `${year}-${month}-${day}T${hour}:${minute}`;
+}
+function addTaskFromDB(tasks) {
   // getUserTasks().then((tasks) => {
   //   tasks.forEach((task) => {
   //     addTaskToCalendarFromDB(task);
@@ -109,7 +38,15 @@ function addTaskFromDB() {
     console.error("Cannot add tasks because .time-slots container does not exist.");
     return;
   }
+  console.log("insert vao db thui")
+  console.log(tasks)
   tasks.forEach((task) => {
+    console.log("1 task")
+    console.log(task)
+    task.startTime = convertTimestampToDateTime(task.start_time)
+    task.endTime = convertTimestampToDateTime(task.end_time)
+    task.taskName = task.task_name
+    task.taskDescription = task.task_description
     if (taskOccursInCurrentWeek(task)) {
       addTaskToCalendarFromDB(task);
     }

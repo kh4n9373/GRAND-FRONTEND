@@ -8,16 +8,21 @@ app = Flask(__name__)
 
 security_on = False
 
+BACKEND_URL = "https://grand-backend.fly.dev/"
+
 @app.route('/')
 def index():
     return render_template('index.html')
 
 @app.route('/info')
 def info():
-    return render_template('info_page.html')
+    username = request.args.get('username', 'Guest')
+    userid = request.args.get('userid',1)
+    return render_template('info_page.html',username=username, userid=userid)
 
 @app.route('/create-account')
 def create_account_page():
+    
     return render_template('login.html')
 
 @app.route('/calendar')
@@ -25,6 +30,7 @@ def render_calendar():
     try:
         if security_on:
             username = request.args.get('username', 'Guest')
+            userid = request.args.get('userid',1)
             access_token = request.cookies.get('access_token')
 
             if not access_token:
@@ -34,7 +40,7 @@ def render_calendar():
         
             print(access_token)
             response = requests.request("GET", 
-                url="http://localhost:80/authorization/verify-token/", 
+                url=f"{BACKEND_URL}/authorization/verify-token/", 
                 headers={
                     'accept': 'application/json',
                     'Authorization': f'Bearer {access_token}',
@@ -48,7 +54,7 @@ def render_calendar():
                 print(user)
                 if user:
                     username = user['full_name']
-                return render_template('main.html', username=username)
+                return render_template('main.html', username=username, userid=userid)
             else:
                 print('ACCESS TOKEN EXPIRED')
                 refresh_token = request.cookies.get('refresh_token')
@@ -57,7 +63,7 @@ def render_calendar():
                     return render_template('login.html')
                 
                 response = requests.request("GET", 
-                    url="http://localhost:80/authorization/verify-token/", 
+                    url=f"{BACKEND_URL}/authorization/verify-token/", 
                     headers={
                         'accept': 'application/json',
                         'Content-Type': 'application/json'
@@ -81,8 +87,9 @@ def render_calendar():
                 return response_html
         else:
             username = request.args.get('username', 'Guest')
+            userid = request.args.get('userid',1)
             # access_token = request.cookies.get('access_token')
-            return render_template('main.html', username=username)
+            return render_template('main.html', username=username, userid=userid)
 
                 
     except Exception as e:
@@ -97,7 +104,7 @@ def render_week_view():
 def render_month_view():
     return render_template('month_view.html')
 if __name__ == '__main__':
-    app.run(debug=True,port='5001',host='0.0.0.0')
+    app.run(debug=True,port='3000',host='0.0.0.0')
     # socketio.run(app, host='0.0.0.0', port=5001, debug=True)
     
     # asking = "hi"

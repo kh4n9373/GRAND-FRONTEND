@@ -83,6 +83,53 @@ max-width: 100%;
 background-color: #dee2e6;
 border-radius: 15px 15px 15px 0;
 }
+.bot-message {
+  align-self: flex-start;
+  background-color: #dee2e6;
+  border-radius: 15px 15px 15px 0;
+  padding: 8px 10px;
+  font-size: 12px;
+  font-weight: 400;
+  max-width: 100%;
+  line-height: 1.5;
+}
+
+.bot-message p,
+.bot-message ul,
+.bot-message ol,
+.bot-message li,
+.bot-message strong,
+.bot-message em {
+  margin: 0.2em 0;
+  padding: 0;
+  font-size: 12px;
+  font-weight: 400;
+  color: black;
+}
+
+.bot-message ul,
+.bot-message ol {
+  padding-left: 1.2em;
+  margin-top: 0.5em;
+}
+
+.bot-message li {
+  list-style-type: disc;
+}
+
+.bot-message strong {
+  font-weight: 600;
+}
+
+.bot-message em {
+  font-style: italic;
+}
+
+.bot-message br {
+  content: "";
+  display: block;
+  margin-bottom: 0.3em;
+}
 
 .user-message p {
 background-color: #4361ee;

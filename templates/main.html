@@ -20,10 +20,13 @@
     <link rel="stylesheet" href="static/styles/style_main/style_main.css" />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
 
     <script>
-      const userID = '{{userID}}'; // This assumes the userID is passed from the Python script
-      const username = '{{username}}';
+      const USERID = '{{userid}}'; // This assumes the userID is passed from the Python script
+      console.log("userid: ",USERID)
+      const USERNAME = '{{username}}';
       // const evtSource = new EventSource("/stream");
     </script>
 

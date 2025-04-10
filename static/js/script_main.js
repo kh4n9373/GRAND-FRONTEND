@@ -614,6 +614,7 @@ document.addEventListener('DOMContentLoaded', function () {
     };
     console.log('Task Data here:', taskData);
     addTask(taskData);
+    console.log("hello hehe")
 
     // Create Delete Button
     const deleteButton = document.createElement('button');
@@ -808,34 +809,43 @@ document.addEventListener('DOMContentLoaded', function () {
       console.log(userMessage);
       addMessage(userMessage, true);
       inputField.value = '';
-
+  
       addTypingIndicator();
-
+  
       try {
-        const response = await fetch(`/infer`, {
+        const response = await fetch('https://time-management-agent-production.up.railway.app/chat/chat_completion', {
           method: 'POST',
           headers: {
+            'accept': 'application/json',
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ input: userMessage, ID: userID }),
+          body: JSON.stringify({
+            userid: 7, // fallback to 7 if window.userID not set
+            message: userMessage,
+            token: 'string'
+          })
         });
-
+  
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-
+  
         const data = await response.json();
-
+  
         removeTypingIndicator();
-        addMessage(data.response);
+  
+        // Safely access the message
+        const botMessage = data.message || 'No response from server.';
+        addMessage(botMessage);
       } catch (error) {
         console.error('Error:', error);
-
+  
         removeTypingIndicator();
         addMessage('Sorry, there was an error processing your message.');
       }
     }
   }
+  
 
   sendButton.addEventListener('click', handleUserInput);
 

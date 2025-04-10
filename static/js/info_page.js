@@ -146,10 +146,11 @@ function submitAnswers() {
 // Redirect to dashboard
 function goToDashboard() {
     // In a real app, this would redirect to your dashboard
-    window.location.href = "#dashboard";
+
+    window.location.href = `/calendar?username=${encodeURIComponent(USERNAME)}&userid=${encodeURIComponent(USERID)}`;
     // For demo, just reload
     // window.location.reload();
-    alert("In a real application, you would now be redirected to your personalized dashboard!");
+    // alert("In a real application, you would now be redirected to your personalized dashboard!");
 }
 
 // Initialize

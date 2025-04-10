@@ -1,56 +1,82 @@
+function convertToTimestamp(isoString) {
+  const date = new Date(isoString);
+  return Math.floor(date.getTime() / 1000); 
+}
 function addTask(taskData) {
-  return fetch('/add-task', {
+  taskData.startTime = convertToTimestamp(taskData.startTime)
+  taskData.endTime = convertToTimestamp(taskData.endTime)
+  taskData.userID = USERID
+
+  console.log("data add task: ")
+  console.log(taskData)
+  return fetch('https://grand-backend.fly.dev/sqldb/tasks/', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'accept': 'application/json',
+      'Content-Type': 'application/json'
     },
-    body: JSON.stringify(taskData),
+    body: JSON.stringify({
+      userid: String(taskData.userID), 
+      task_name: taskData.taskName,
+      task_description: taskData.taskDescription,
+      start_time: taskData.startTime, 
+      end_time: taskData.endTime,    
+      color: taskData.taskColor,
+      status: taskData.status || 'pending',
+      priority: taskData.priority || 0
+    })
   })
-    .then((response) => response.json())
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
     .then((data) => {
-      console.log('Success:', data);
-      getUserTasks();
+      console.log('✅ Task created:', data);
+      // getUserTasks(); 
     })
     .catch((error) => {
-      console.error('Error:', error);
+      console.error('❌ Error adding task:', error);
     });
 }
 
+
 function deleteTask(taskData) {
-  return fetch('/delete-task', {
+  const userid = taskData.userid;
+  const taskid = taskData.taskid;
+  console.log("task to delete")
+  return fetch(`https://grand-backend.fly.dev/sqldb/tasks/${userid}/${taskid}`, {
     method: 'DELETE',
     headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(taskData),
+      'accept': 'application/json'
+    }
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log('Success:', data);
+      console.log('Delete success:', data);
       getUserTasks();
     })
     .catch((error) => {
-      console.error('Error:', error);
+      console.error('Delete error:', error);
     });
 }
 
 function getUserTasks() {
-  return fetch(
-    `/get-user-metadata?userID=${encodeURIComponent(window.userID)}`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-  )
-    .then((response) => response.json())
-    .then((userData) => {
-      console.log('UserData:', userData);
-      return userData.tasks || [];
-    })
-    .catch((error) => {
-      console.error('Error fetching user data:', error);
-      return [];
-    });
+  userid = USERID
+  return fetch(`https://grand-backend.fly.dev/sqldb/tasks/${userid}`, {
+    method: 'GET',
+    headers: {
+      'accept': 'application/json',
+    },
+  })
+  .then((response) => response.json())
+  .then((data) => {
+    console.log('Fetched tasks:', data.tasks);
+    return data.tasks || [];
+  })
+  .catch((error) => {
+    console.error('Error fetching tasks:', error);
+    return [];
+  });
 }

@@ -14,6 +14,36 @@ function initializeChat() {
   loadConversation(window.userID);
   addDateTimeIndicator();
 }
+function streamBotMessage(message) {
+  const chatWindow = document.querySelector('.chat-window');
+  const messageDiv = document.createElement('div');
+  messageDiv.className = 'bot-message';
+
+  // Gắn trước thẻ <p> rỗng
+  const p = document.createElement('p');
+  p.textContent = '';
+  messageDiv.appendChild(p);
+  chatWindow.appendChild(messageDiv);
+  chatWindow.scrollTop = chatWindow.scrollHeight;
+
+  let i = 0;
+  let currentText = '';
+
+  const interval = setInterval(() => {
+    currentText += message[i];
+    p.textContent = currentText; // dùng textContent để tránh Markdown auto-parse
+    i++;
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+
+    if (i >= message.length) {
+      clearInterval(interval);
+
+      // ✅ Sau khi gõ xong thì render Markdown đẹp
+      const rendered = marked.parse(currentText);
+      p.innerHTML = rendered;
+    }
+  }, 5); // tốc độ stream
+}
 
 async function handleUserInput() {
   const inputField = document.querySelector('.input-area input');
@@ -25,12 +55,16 @@ async function handleUserInput() {
     addTypingIndicator();
 
     try {
-      const response = await fetch(`/infer`, {
+      const response = await fetch('https://time-management-agent-production.up.railway.app/chat/chat_completion', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ input: userMessage, ID: window.userID }),
+        body: JSON.stringify({
+          userid: USERID || 7,
+          message: userMessage,
+          token: 'string',
+        }),
       });
 
       if (!response.ok) {
@@ -40,7 +74,7 @@ async function handleUserInput() {
       const data = await response.json();
 
       removeTypingIndicator();
-      addMessage(data.response);
+      streamBotMessage(data.message); // 👈 dùng fake streaming ở đây
     } catch (error) {
       console.error('Error:', error);
       removeTypingIndicator();
@@ -49,11 +83,20 @@ async function handleUserInput() {
   }
 }
 
+
 function addMessage(message, isUser = false, shouldSave = true) {
   const chatWindow = document.querySelector('.chat-window');
   const messageDiv = document.createElement('div');
   messageDiv.className = isUser ? 'user-message' : 'bot-message';
-  messageDiv.innerHTML = `<p>${message}</p>`;
+
+  // Sử dụng marked để render markdown nếu là bot
+  if (isUser) {
+    messageDiv.innerHTML = `<p>${message}</p>`;
+  } else {
+    const renderedMarkdown = marked.parse(message);
+    messageDiv.innerHTML = renderedMarkdown;
+  }
+
   chatWindow.appendChild(messageDiv);
   chatWindow.scrollTop = chatWindow.scrollHeight;
 
@@ -61,6 +104,7 @@ function addMessage(message, isUser = false, shouldSave = true) {
     saveConversation(window.userID);
   }
 }
+
 
 function addTypingIndicator() {
   const chatWindow = document.querySelector('.chat-window');
@@ -104,23 +148,40 @@ function saveConversation(user_id) {
 
 function loadConversation(user_id) {
   const chatWindow = document.querySelector('.chat-window');
-  const savedConversation = localStorage.getItem(`chatConversation_${user_id}`);
-  if (savedConversation) {
-    const conversationData = JSON.parse(savedConversation);
-    const messages = conversationData.messages;
-    chatWindow.innerHTML = ''; // Clear existing messages
-    messages.forEach((item) => {
-      if (item.type === 'timestamp') {
-        const dateTimeDiv = document.createElement('div');
-        dateTimeDiv.className = 'timestamp';
-        dateTimeDiv.textContent = item.text;
-        chatWindow.appendChild(dateTimeDiv);
-      } else {
-        addMessage(item.text, item.isUser, false);
-      }
+  chatWindow.innerHTML = ''; // Clear existing messages
+
+  fetch('https://grand-backend.fly.dev/conversation/query', {
+    method: 'POST',
+    headers: {
+      'accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ userid: USERID })
+  })
+  .then(response => response.json())
+  .then(data => {
+    const historyArray = data.history?.[0]?.history || [];
+
+    historyArray.forEach(item => {
+      const timestamp = new Date(item.created_at * 1000).toLocaleString();
+      
+      // timestamp (optional: nếu bạn muốn hiển thị theo từng cặp)
+      const dateTimeDiv = document.createElement('div');
+      dateTimeDiv.className = 'timestamp';
+      dateTimeDiv.textContent = timestamp;
+      chatWindow.appendChild(dateTimeDiv);
+
+      // user message
+      addMessage(item.user, true, false);
+      // assistant response
+      addMessage(item.assistant, false, false);
     });
-  }
+  })
+  .catch(error => {
+    console.error('Failed to load conversation:', error);
+  });
 }
+
 
 function addDateTimeIndicator() {
   const chatWindow = document.querySelector('.chat-window');
