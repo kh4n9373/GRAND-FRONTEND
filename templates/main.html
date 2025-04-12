@@ -28,7 +28,7 @@
       console.log("userid: ",USERID)
       const USERNAME = '{{username}}';
       // const evtSource = new EventSource("/stream");
-      const ws = new WebSocket("ws://localhost:5050/ws");
+      const ws = new WebSocket("wss://grand-backend.fly.dev/ws");
 
       ws.onmessage = (event) => {
         const data = JSON.parse(event.data);
