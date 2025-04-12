@@ -46,8 +46,8 @@ function createTaskElement(taskData) {
     minute: '2-digit',
   })}`;
 
-  task.appendChild(taskName);
   task.appendChild(taskTime);
+  task.appendChild(taskName);
   task.appendChild(taskDescript);
   task.style.backgroundColor = taskData.taskColor;
   
@@ -140,6 +140,59 @@ function createTaskElement(taskData) {
       showtask.style.visibility = 'hidden';
   });
 
+  //css task display
+  requestAnimationFrame(() => {
+    const taskHeight = task.getBoundingClientRect().height;
+    console.log(taskHeight);
+    const nameBaseSize = 14; 
+    const descBaseSize = 12;
+  
+    const scale = Math.min(1, taskHeight / 80); 
+    const nameFontSize = Math.max(12, nameBaseSize * scale); 
+    const descFontSize = Math.max(10, descBaseSize * scale); 
+  
+    taskName.style.fontSize = `${nameFontSize}px`;
+    taskDescript.style.fontSize = `${descFontSize}px`;
+  
+    if (taskHeight <= 20) {
+      task.style.padding = '0 5px';
+      taskTime.style.display = 'none';
+      taskName.style.background = 'none';
+      taskDescript.style.display = 'none';
+    } else if (taskHeight <= 40) {
+      taskTime.style.display = 'none';
+      taskName.style.background = 'none';
+      taskDescript.style.display = 'none';
+    } else if (taskHeight <= 80) {
+      taskTime.style.display = 'block';
+      taskDescript.style.display = 'none';
+    } else {
+      taskDescript.style.display = 'block';
+
+      const remainingHeight = taskHeight - taskName.offsetHeight - taskTime.offsetHeight - 10;
+
+      const isOverflowingHeight = taskDescript.scrollHeight > remainingHeight;
+      const isOverflowingWidth = taskDescript.scrollWidth > taskDescript.clientWidth;
+
+      if (isOverflowingHeight || isOverflowingWidth) {
+        taskDescript.style.overflow = 'hidden';
+        taskDescript.style.textOverflow = 'ellipsis';
+        taskDescript.style.display = '-webkit-box';
+        taskDescript.style.webkitBoxOrient = 'vertical';
+        taskDescript.style.maxHeight = `${remainingHeight}px`;
+
+        const lineHeight = descFontSize * 1.4; 
+        const maxLines = Math.floor(remainingHeight / lineHeight);
+        taskDescript.style.webkitLineClamp = `${maxLines}`;
+      } else {
+        taskDescript.style.overflow = 'visible';
+        taskDescript.style.textOverflow = 'unset';
+        taskDescript.style.display = 'block';
+        taskDescript.style.webkitLineClamp = 'unset';
+        taskDescript.style.maxHeight = 'unset';
+      }
+    }
+  });
   return task;  
 }
 
