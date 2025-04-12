@@ -148,7 +148,7 @@ function createTaskElement(taskData) {
     const descBaseSize = 12;
   
     const scale = Math.min(1, taskHeight / 80); 
-    const nameFontSize = Math.max(12, nameBaseSize * scale); 
+    const nameFontSize = Math.max(9, nameBaseSize * scale); 
     const descFontSize = Math.max(10, descBaseSize * scale); 
   
     taskName.style.fontSize = `${nameFontSize}px`;
