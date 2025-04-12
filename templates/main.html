@@ -19,7 +19,7 @@
     />
     <link rel="stylesheet" href="static/styles/style_main/style_main.css" />
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
 
@@ -28,6 +28,17 @@
       console.log("userid: ",USERID)
       const USERNAME = '{{username}}';
       // const evtSource = new EventSource("/stream");
+      const ws = new WebSocket("ws://localhost:5050/ws");
+
+      ws.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        if (data.type === "TASK_ADDED") {
+          console.log("ADD TASK TRIGGERED") // or whatever
+          console.log("TASK DAY ", data.task)
+          addTaskFromDB(data.task);
+          console.log("LOADED")
+        }
+      };
     </script>
 
     <title>Timenest</title>
@@ -292,7 +303,7 @@
         </div>
       </div>
     </div>
-    <script>
+    <!-- <script>
       const socket = io();
       socket.on('connect', () => {
         console.log('Connected to server');
@@ -302,7 +313,7 @@
         console.log('taskData HEREEE', taskData);
         addTaskToCalendarFromDB(taskData);
       });
-    </script>
+    </script> -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="static/js/analysis.js" defer></script>
     <script src="static/js/utils.js" defer></script>
