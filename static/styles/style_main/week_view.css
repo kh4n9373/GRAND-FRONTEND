@@ -90,3 +90,26 @@
   background-color: rgba(67, 97, 238, 0.3);
 }
 
+.realtime-line {
+  position: absolute;
+  height: 3px;
+  background-color: rgba(200, 0, 0, 0.6); 
+  z-index: 999;
+  border-radius: 4px;
+  box-shadow: 0 0 6px rgba(200, 0, 0, 0.5); 
+  transition: top 0.2s ease;
+  pointer-events: none;
+}
+
+.realtime-arrow {
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 10px solid rgba(200, 0, 0, 0.9);
+  position: absolute;
+  top: -6.5px;
+  left: 0;
+  transition: left 0.2s ease, top 0.2s ease;
+  pointer-events: none;
+}
