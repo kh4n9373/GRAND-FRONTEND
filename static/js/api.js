@@ -22,7 +22,7 @@ function addTask(taskData) {
       start_time: taskData.startTime, 
       end_time: taskData.endTime,    
       color: taskData.taskColor,
-      status: taskData.status || 'pending',
+      status: taskData.status || 'In Progress',
       priority: taskData.priority || 0
     })
   })
@@ -78,5 +78,26 @@ function getUserTasks() {
   .catch((error) => {
     console.error('Error fetching tasks:', error);
     return [];
+  });
+}
+
+function updateTaskStatus(taskid, newStatus) {
+  return fetch(`https://grand-backend.fly.dev/sqldb/tasks/${USERID}/${taskid}`, {
+    method: 'PUT',
+    headers: {
+      'accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ status: newStatus })
+  })
+  .then((res) => {
+    if (!res.ok) throw new Error('Failed to update status');
+    return res.json();
+  })
+  .then((data) => {
+    console.log('Task status updated:', data);
+  })
+  .catch((err) => {
+    console.error('Failed to update status:', err);
   });
 }

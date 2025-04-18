@@ -2,7 +2,7 @@ function addTaskToCalendar(taskData) {
   const task = createTaskElement(taskData, true);
   positionTask(task, new Date(taskData.startTime), new Date(taskData.endTime));
   document.querySelector('.time-slots').appendChild(task);
-  taskData.status = "pending"
+  taskData.status = "In Progress"
   taskData.priority = 0
   // console.log(taskData)
   addTask(taskData);
@@ -26,6 +26,32 @@ function createTaskElement(taskData, isNew = false) {
   const task = document.createElement('button');
   task.classList.add('task');
 
+  const checkbox = document.createElement('button');
+  checkbox.classList.add('status-toggle');
+  checkbox.innerHTML = taskData.status === 'Done' ? '✔' : ' '; // hiển thị tick nếu đã Done
+  checkbox.setAttribute('aria-label', 'Toggle task status');
+
+  checkbox.classList.toggle('checked', taskData.status === 'Done');
+  
+  // Bắt sự kiện toggle
+  checkbox.addEventListener('click', (e) => {
+    e.stopPropagation(); // tránh trigger event click của task
+  
+    if (taskData.status === 'Done') {
+      taskData.status = 'In Progress';
+      checkbox.innerHTML = ' ';
+      checkbox.classList.remove('checked');
+    } else {
+      taskData.status = 'Done';
+      checkbox.innerHTML = '✔';
+      checkbox.classList.add('checked');
+    }
+
+    const statusDisplay = document.getElementById('statusDisplay');
+    if (statusDisplay) statusDisplay.textContent = taskData.status;
+    updateTaskStatus(taskData.taskid, taskData.status);
+  });
+  
   const taskName = document.createElement('p');
   taskName.classList.add('taskName');
   taskName.textContent = taskData.taskName;
@@ -46,9 +72,15 @@ function createTaskElement(taskData, isNew = false) {
     minute: '2-digit',
   })}`;
 
+  const taskTitleWrapper = document.createElement('div');
+  taskTitleWrapper.classList.add('task-title-wrapper');
+  taskTitleWrapper.appendChild(checkbox);
+  taskTitleWrapper.appendChild(taskName);
+
   task.appendChild(taskTime);
-  task.appendChild(taskName);
+  task.appendChild(taskTitleWrapper); 
   task.appendChild(taskDescript);
+
   if (isNew) {
     task.style.backgroundColor = taskData.taskColor;
   }
@@ -67,6 +99,7 @@ function createTaskElement(taskData, isNew = false) {
     // Hiển thị thông tin task
     document.getElementById('displayTaskName').textContent = taskName;
     document.getElementById('displayTaskDescription').textContent = taskDescription;
+    document.getElementById('statusDisplay').textContent = taskData.status;
 
     // Xử lý thời gian bắt đầu và kết thúc
     const startTime = new Date(taskData.startTime);
@@ -83,9 +116,9 @@ function createTaskElement(taskData, isNew = false) {
     document.getElementById('displayToDate').textContent = toDate;
     document.getElementById('displayDuration').textContent = duration;
 
-    // Kiểm tra trạng thái của task và cập nhật dropdown
-    const statusSelect = document.getElementById('statusSelect');
-    statusSelect.value = taskData.status; // Gán giá trị status hiện tại
+    // // Kiểm tra trạng thái của task và cập nhật dropdown
+    // const statusSelect = document.getElementById('statusSelect');
+    // statusSelect.value = taskData.status; // Gán giá trị status hiện tại
 
     //Nút xóa
 
@@ -129,12 +162,12 @@ function createTaskElement(taskData, isNew = false) {
   
   }); 
 
-// Cập nhật trạng thái khi người dùng thay đổi
-  document.getElementById('statusSelect').addEventListener('change', function(event) {
-    const newStatus = event.target.value;
-    taskData.status = newStatus;  // Cập nhật trạng thái mới của task
-    updateTaskColor(task, newStatus);  // Cập nhật màu của task trong lịch
-  });
+// // Cập nhật trạng thái khi người dùng thay đổi
+//   document.getElementById('statusSelect').addEventListener('change', function(event) {
+//     const newStatus = event.target.value;
+//     taskData.status = newStatus;  // Cập nhật trạng thái mới của task
+//     updateTaskColor(task, newStatus);  // Cập nhật màu của task trong lịch
+//   });
 
 
   // Thêm sự kiện cho nút đóng
