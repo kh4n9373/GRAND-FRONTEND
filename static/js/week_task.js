@@ -1,5 +1,5 @@
 function addTaskToCalendar(taskData) {
-  const task = createTaskElement(taskData);
+  const task = createTaskElement(taskData, true);
   positionTask(task, new Date(taskData.startTime), new Date(taskData.endTime));
   document.querySelector('.time-slots').appendChild(task);
   taskData.status = "pending"
@@ -10,7 +10,7 @@ function addTaskToCalendar(taskData) {
 }
 
 function addTaskToCalendarFromDB(taskData){
-  const task = createTaskElement(taskData);
+  const task = createTaskElement(taskData, false);
   if(currentWeek <= new Date(taskData.startTime) && new Date(taskData.endTime) <= endWeek)positionTask(task, new Date(taskData.startTime), new Date(taskData.endTime));
   document.querySelector('.time-slots').appendChild(task);
 }
@@ -22,7 +22,7 @@ function taskOccursInCurrentWeek(taskData) {
   return taskStart >= currentWeek && taskStart < new Date(currentWeek.getTime() + 7 * 24 * 60 * 60 * 1000);
 }
 
-function createTaskElement(taskData) {
+function createTaskElement(taskData, isNew = false) {
   const task = document.createElement('button');
   task.classList.add('task');
 
@@ -49,7 +49,12 @@ function createTaskElement(taskData) {
   task.appendChild(taskTime);
   task.appendChild(taskName);
   task.appendChild(taskDescript);
-  task.style.backgroundColor = taskData.color;
+  if (isNew) {
+    task.style.backgroundColor = taskData.taskColor;
+  }
+  else {
+    task.style.backgroundColor = taskData.color;
+  }
   
   task.dataset.status = "In progress";
 
