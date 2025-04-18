@@ -194,8 +194,18 @@
                 Start Time:
                 <input type="datetime-local" id="startTime" step="900" /><br />
                 End Time: <input type="datetime-local" id="endTime" /><br />
-                Task Color:
-                <input type="color" id="taskColor" value="#E288B8" /><br />
+                Task Group:
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <select id="taskGroup">
+                    <option value="#A084CA">Growth</option>
+                    <option value="#F4A261">Wellness</option>
+                    <option value="#56CC9D">Social</option>
+                    <option value="#F78FB3">Family</option>
+                    <option value="#6A8EAE">Career</option>
+                  </select>
+                  <input type="color" id="taskColor" value="#A084CA" readonly disabled />
+                </div>
+                
                 <button type="submit">Create Task</button>
               </form>
             </div>

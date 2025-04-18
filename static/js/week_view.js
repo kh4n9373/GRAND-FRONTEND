@@ -18,19 +18,30 @@ function initializeCalendar() {
 
   updateCalendarDisplay();
   createTimeIntervalsAndSlots();
+  drawRealtimeLine();
+
+  setTimeout(() => {
+    drawRealtimeLine();
+    setInterval(drawRealtimeLine, 60000);
+  }, 20);
 
   timeSlots.addEventListener('mousedown', onMouseDown);
   timeSlots.addEventListener('mousemove', onMouseMove);
   // timeSlots.addEventListener('click', onMouseClick);
   document.addEventListener('mouseup', onMouseUp);
 
-  // Once the grid is rendered, wait a tick then add tasks.
-  setTimeout(() => {
-    // Now that time-slots are rendered, add the dummy tasks.
-    addTaskFromDB();
-    console.log("task load done");
-  }, 500);
-
+  getUserTasks().then((tasks) => {
+    if (Array.isArray(tasks) && tasks.length > 0) {
+      // Once the grid is rendered, wait a tick then add tasks.
+      setTimeout(() => {
+        // Now that time-slots are rendered, add the dummy tasks.
+        addTaskFromDB(tasks);
+        console.log("Tasks loaded into calendar");
+      }, 500); 
+    } else {
+      console.log("No tasks to load");
+    }
+  });
 }
 
 function createTimeIntervalsAndSlots() {
@@ -241,4 +252,43 @@ function clearHighlight() {
   document
     .querySelectorAll('.highlighted')
     .forEach((slot) => slot.classList.remove('highlighted'));
+}
+
+// Vẽ đường realtime
+function drawRealtimeLine() {
+  const container = document.querySelector('.time-slots');
+  if (!container) return;
+
+  const containerRect = container.getBoundingClientRect();
+  const cellWidth = containerRect.width / 7;
+  const cellHeight = 20;
+  const blankOffset = 30;
+
+  const now = new Date();
+  const dayIndex = Math.floor((now - currentWeek) / (1000 * 60 * 60 * 24));
+  if (dayIndex < 0 || dayIndex > 6) return;
+
+  const hour = now.getHours();
+  const minutes = now.getMinutes();
+  const totalMinutes = hour * 60 + minutes;
+
+  // Mỗi cell = 15 phút => 1 phút = cellHeight / 15
+  const top = blankOffset + (totalMinutes * (cellHeight / 15));
+  const left = dayIndex * cellWidth;
+
+  // Xoá realtime cũ nếu có
+  const oldLine = document.querySelector('.realtime-line');
+  if (oldLine) oldLine.remove();
+
+  const line = document.createElement('div');
+  line.classList.add('realtime-line');
+  line.style.top = `${top}px`;
+  line.style.left = `${left}px`;
+  line.style.width = `${cellWidth}px`;
+
+  const arrow = document.createElement('div');
+  arrow.classList.add('realtime-arrow');
+  line.appendChild(arrow);
+
+  container.appendChild(line);
 }

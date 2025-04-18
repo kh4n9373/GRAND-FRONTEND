@@ -14,7 +14,13 @@ function initializeModal() {
       closeModal();
     }
   };
-
+  const taskGroupSelect = document.getElementById('taskGroup');
+  const taskColorInput = document.getElementById('taskColor');
+  
+  taskGroupSelect.addEventListener('change', function () {
+    const selectedColor = this.value;
+    taskColorInput.value = selectedColor;
+  });
 }
 
 function openCreateTaskModal() {
@@ -55,5 +61,3 @@ function getTaskDataFromForm() {
     endTime: document.getElementById('endTime').value,
   };
 }
-
-

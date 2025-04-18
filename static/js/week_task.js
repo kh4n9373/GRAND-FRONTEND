@@ -49,7 +49,7 @@ function createTaskElement(taskData) {
   task.appendChild(taskTime);
   task.appendChild(taskName);
   task.appendChild(taskDescript);
-  task.style.backgroundColor = taskData.taskColor;
+  task.style.backgroundColor = taskData.color;
   
   task.dataset.status = "In progress";
 
