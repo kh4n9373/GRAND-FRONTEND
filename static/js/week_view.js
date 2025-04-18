@@ -23,7 +23,7 @@ function initializeCalendar() {
   setTimeout(() => {
     drawRealtimeLine();
     setInterval(drawRealtimeLine, 60000);
-  }, 20);
+  }, 70);
 
   timeSlots.addEventListener('mousedown', onMouseDown);
   timeSlots.addEventListener('mousemove', onMouseMove);
