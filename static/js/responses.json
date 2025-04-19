@@ -1,11 +1,11 @@
 {
-    "progress": {
-      "response": ""
-    },
-    "tasks": {
-      "response": ""
-    },
-    "priority-completion": {
-      "response": ""
-    }
+  "progress": {
+    "response": "Be patient, your insight will be updated each 30 minutes. Stay tuned!"
+  },
+  "tasks": {
+    "response": "Be patient, your insight will be updated each 30 minutes. Stay tuned!"
+  },
+  "priority-completion": {
+    "response": "Be patient, your insight will be updated each 30 minutes. Stay tuned!"
+  }
 }
