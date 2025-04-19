@@ -1,7 +1,7 @@
 let currentWeek = getStartOfCenteredWeek(new Date());
 let endWeek = new Date();
 endWeek.setHours(0,0,0,0);
-endWeek.setDate(currentWeek.getDate() + 6);
+endWeek.setDate(currentWeek.getDate() + 7);
 
 function initializeCalendar() {
   const timeSlots = document.querySelector('.time-slots');
@@ -23,7 +23,7 @@ function initializeCalendar() {
   setTimeout(() => {
     drawRealtimeLine();
     setInterval(drawRealtimeLine, 60000);
-  }, 20);
+  }, 70);
 
   timeSlots.addEventListener('mousedown', onMouseDown);
   timeSlots.addEventListener('mousemove', onMouseMove);
@@ -74,6 +74,7 @@ function createTimeIntervalsAndSlots() {
     dayElements.forEach((dayElement, j) => {
       const timeSlot = document.createElement('div');
       timeSlot.classList.add('time-slot');
+      timeSlot.style.borderRight = '1px solid #ddd';
 
       const date = new Date(currentWeek);
       date.setDate(currentWeek.getDate() + j);
@@ -102,13 +103,13 @@ function createTimeIntervalsAndSlots() {
 
 function previousWeek() {
   currentWeek.setDate(currentWeek.getDate() - 7);
-  endWeek.setDate(currentWeek.getDate() + 6);
+  endWeek.setDate(currentWeek.getDate() + 7);
   initializeCalendar();
 }
 
 function nextWeek() {
   currentWeek.setDate(currentWeek.getDate() + 7);
-  endWeek.setDate(currentWeek.getDate() + 6);
+  endWeek.setDate(currentWeek.getDate() + 7);
   initializeCalendar();
 }
 

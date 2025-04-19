@@ -119,10 +119,12 @@
   color: black;
 }
 
-.bot-message ul,
+.bot-message ul, 
 .bot-message ol {
+  display: flex; 
+  flex-direction: column; 
+  gap: 1px; 
   padding-left: 1.2em;
-  margin-top: 0.5em;
 }
 
 .bot-message li {
@@ -144,9 +146,9 @@
 }
 
 .user-message p {
-background-color: #4361ee;
-color: white;
-border-radius: 15px 15px 0 15px;
+  background-color: #4361ee;
+  color: white;
+  border-radius: 15px 15px 0 15px;
 }
 
 .input-area {
